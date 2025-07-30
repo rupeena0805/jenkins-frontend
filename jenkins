@@ -9,26 +9,25 @@ pipeline {
         nodejs 'rup_node'
     }
 
-    triggers {
-        pollSCM('H/2 * * * *') // Check every 2 minutes for changes
-    }
-
+   
     stages {
         stage('Checkout Repository') {
             steps {
-                echo 'Cloning the GitHub repository...'
+                echo '📦 Cloning the GitHub repository...'
                 git branch: 'main', url: 'https://github.com/rupeena0805/jenkins-frontend.git'
             }
         }
 
-        stage('Install dependencies') {
+        stage('Install Dependencies') {
             steps {
+                echo '📥 Installing npm dependencies...'
                 powershell 'npm install'
             }
         }
 
         stage('Deploy') {
             steps {
+                echo '🚀 Starting the development server...'
                 powershell 'npm start'
             }
         }
@@ -40,6 +39,6 @@ pipeline {
         }
         failure {
             echo '❌ Deployment failed. Please check logs for details.'
-        }
-    }
+        }
+    }
 }
