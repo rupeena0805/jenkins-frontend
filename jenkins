@@ -9,7 +9,6 @@ pipeline {
         nodejs 'rup_node'
     }
 
-   
     stages {
         stage('Checkout Repository') {
             steps {
@@ -39,6 +38,6 @@ pipeline {
         }
         failure {
             echo '❌ Deployment failed. Please check logs for details.'
-        }
-    }
+        }
+    }
 }
