@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'development'
+    }
+
+    tools {
+        nodejs 'rup_node'
+    }
+
+    triggers {
+        pollSCM('H/2 * * * *') // Check every 2 minutes for changes
+    }
+
+    stages {
+        stage('Checkout Repository') {
+            steps {
+                echo 'Cloning the GitHub repository...'
+                git branch: 'main', url: 'https://github.com/rupeena0805/jenkins-frontend.git'
+            }
+        }
+
+       
+
+        stage('Install dependencies') {
+            steps {
+                 
+                    powershell 'npm install'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                
+                    powershell 'npm start'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Frontend deployed successfully!'
+        }
+        failure {
+            echo '❌ Deployment failed. Please check logs for details.'
+ }
+}
+}
